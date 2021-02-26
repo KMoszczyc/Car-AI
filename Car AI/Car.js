@@ -1,8 +1,8 @@
 let carImg;
 let bestcarImg;
 function preload() {
-    carImg = loadImage('car.png');
-    bestcarImg = loadImage('best_car.png');
+    carImg = loadImage('imgs/car.png');
+    bestcarImg = loadImage('imgs/best_car.png');
 }
 
 class Car {
@@ -57,7 +57,7 @@ class Car {
         this.frontPos=this.pos.copy()
         this.frontPos.add(cos(this.heading)*this.h/2,sin(this.heading)*this.h/2)
         this.borders()
-        
+
         if(!this.dead)
             this.lifeCount++
     }
