@@ -4,8 +4,7 @@ Car AI steered with neural network that is trained by genetic algorithm in p5.js
 
 ## Make the race track
 ![Create-race-track](create-race-track-speed.gif)
-![Firest-Generations](https://user-images.githubusercontent.com/61971053/116263413-a3727200-a779-11eb-955d-cc1c4a4a2eac.mp4)
-
+![first_generations](https://user-images.githubusercontent.com/61971053/116266869-2d233f00-a77c-11eb-9c56-b8488aec687c.gif)
 
 
 
