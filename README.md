@@ -16,6 +16,17 @@ output layer:
   - out_neuron[2] value > 0.5 - speed up
   - out_neuron[3] value > 0.5 - slow down
 
+## Genetic Algorithm
+algorithm:
+  - start new generation (40 cars)
+  - wait for some time
+  - calculate cars fitness
+  - roulette selection - more fitness -> bigger chance of making offspring
+  - mutation of genes (randomly changing weights in neural network)
+  - go to step 1
+
++ The best car from previous generation is copied to the next one without mutation, so that it's valuable genes don't get lost during the selection. All the rest of the cars are deleted from the previous generation.
+
 ## Fitness Function (naive)
 fitness = distance_traveled + max_dist_from_start_point*3 + life_time
 
