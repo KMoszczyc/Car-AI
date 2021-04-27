@@ -3,6 +3,7 @@ Car AI steered with neural network that is trained by genetic algorithm in p5.js
 
 ## Neural Network architecture
 3 layers - (6,5,4)
+
 input layer:
   - 5 front sensors
   - car velocity
