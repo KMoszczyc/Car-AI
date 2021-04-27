@@ -19,7 +19,7 @@ output layer:
 ## Fitness Function (naive)
 fitness = distance_traveled + max_dist_from_start_point*3 + life_time
 
-So this rewards cars that live long, travel longest distance but most importantly get as far away from the start as possible. It's supposed to fight the problem of spinning cars at starting point, but it has a downside. For specific tracks it may get population stuck in local minimum being a sharp corner that is indeed far from the start, but go further the track the car has to get closer to the start, lowering it's fitness. This could be fixed with fitness gates, gates that would be position on the track, and passing each one would increase car's fitness. Although this naive fitness function is good enough.
+So this rewards cars that live long, travel longest distance but most importantly get as far away from the start as possible. It's supposed to fight the problem of spinning cars at starting point, but it has a downside. For specific tracks it may get the population stuck in local minimum being a sharp corner that is indeed far from the start, but to go further down the track the car has to get closer to the start sometimes, lowering it's fitness. This could be fixed with fitness gates, gates that would be position on the track, and passing each one would increase car's fitness. Although current naive fitness function is good enough.
 
 
 ## Make the race track
