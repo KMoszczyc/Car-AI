@@ -6,7 +6,9 @@ Car AI steered with neural network that is trained by genetic algorithm in p5.js
 input layer:
   - 5 front sensors
   - car velocity
-hidden later - ..
+  
+hidden later: ..
+
 output layer:
   - out_neuron[0] value > 0.5 - turn left
   - out_neuron[1] value > 0.5 - turn right
