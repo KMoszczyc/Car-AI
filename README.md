@@ -25,7 +25,7 @@ algorithm:
   - mutation of genes (randomly changing weights in neural network)
   - go to step 1
 
-* The best car from previous generation is copied to the next one without mutation, so that it's valuable genes don't get lost during the selection. All the rest of the cars are deleted from the previous generation.
+The best car from previous generation is copied to the next one without mutation, so that it's valuable genes don't get lost during the selection. All the rest of the cars are deleted from the previous generation.
 
 ## Fitness Function (naive)
 fitness = distance_traveled + max_dist_from_start_point*3 + life_time
