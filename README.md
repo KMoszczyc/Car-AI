@@ -43,6 +43,10 @@ So this rewards cars that live long, travel longest distance but most importantl
 ## Little help..
 ![little_help](https://user-images.githubusercontent.com/61971053/116268613-c6068a00-a77d-11eb-8852-8ab2e7c325aa.gif)
 
+## Generation 35
+![generation_35](https://user-images.githubusercontent.com/61971053/116284474-687a3980-a78d-11eb-82ad-0465c1a9236e.gif)
+
+
 
 Neural network library based on: https://www.youtube.com/watch?v=XJ7HLz9VYz0&list=PLRqwX-V7Uu6aCibgK1PTWWu9by6XFdCfh by Dan Shiffman
 
