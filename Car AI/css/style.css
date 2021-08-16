@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
+:root {
+  --button-color: #2196F3;
+  --transparent-bg: rgba(10,10,10,0.7);
+}
+
+body {
+  margin:0;
+  padding:0;
+  overflow: hidden;
+  color: #fff;
+  font: normal 18px 'Roboto', Helvetica, sans-serif;  
+}
+
+canvas {
+  margin:auto;
+  top: 0;
+  left: 0; 
+  width: 100%;
+  height: 100%;
+}
+
+h1 {
+  margin: 0;
+  padding: 10px 20px;
+  background: var(--transparent-bg);
+  border-radius: 8px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 10px 20px;
+  background: var(--transparent-bg);
+  border-radius: 8px;
+  margin: 0;
+}
+
+li{
+  padding: 5px;
+}
+
+.container {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.canvas-container {
+  position: absolute;
+}
+
+.overlay {
+  position: absolute;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  flex-wrap: wrap; 
+  padding: 20px;
+}
+
+.settings-container {
+  background: var(--transparent-bg);
+  display: block;
+  padding: 20px;
+  margin-right: 40px;
+  border-radius: 8px;
+}
+
+.settings-container > * {
+  margin: 10px 20px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 10px 30px;
+  font: normal 16px 'Roboto', Helvetica, sans-serif;  
+  cursor: pointer;
+  background: var(--button-color);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+}
+
+.btn-outline {
+  background-color: transparent;
+  border: 1px #fff solid;
+}
+
+.btn:hover {
+  transform: scale(0.98);
+}
+

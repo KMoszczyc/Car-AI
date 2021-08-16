@@ -1,48 +1,53 @@
-let wall
+let wall;
 let walls=[];
 let count=0;
-let cars=[]
-let savedCars=[]
+let cars=[];
+let savedCars=[];
 let TOTAL = 40
-let playCheckbox
-let restartButton
-let noGenBox
-let showSensorsBox
-let deadCounter=0
-let timeCount=0
+let deadCounter=0;
+let timeCount=0;
 let genCount =0;
-let start
-let slider
+let start;
+let simulationSpeedSlider;
 let secondBestIndex=0;
-let camera
-let ga
+let camera;
+let ga;
+let myCanvas
+
+const generationCountText = document.querySelector('#generation-count');
+const playCheckbox = document.querySelector('#play-box');
+const runNonStopCheckBox = document.querySelector('#run-dont-stop-box');
+const showSensorsCheckBox = document.querySelector('#show-sensors-box');
+const clearWallsButton = document.querySelector('#clear-walls-btn');
+const restartButton = document.querySelector('#restart-btn');
 
 function setup() {
-    createCanvas(1400,700);
-    start=createVector(200,200)
+    myCanvas = createCanvas(window.innerWidth, window.innerHeight);
+    myCanvas.parent("canvas-container");
+    window.addEventListener('resize', updateCanvas, false);
+
+    start=createVector(300,250)
 
     for(let i=0;i<TOTAL;i++){
         cars.push(new Car(start.x, start.y, new NeuralNetwork(6,5,4)))
     }
 
-    playCheckbox = createCheckbox('play');
-    restartButton = createButton('restart')
-    noGenBox = createCheckbox('run n dont stop!');
-    showSensorsBox = createCheckbox('show sensors!');
-    slider= createSlider(1,100,1)
     camera = start.copy()
-
-    restartButton.mousePressed(onRestartButtonClicked)
     ga = new GA()
+    clearWallsButton.onclick = clearWalls;
+    restartButton.onclick = onRestartButtonClicked;
 }
 
 function draw() {
     background(0)
+    simulationFrame()
+}
 
+function simulationFrame(){
     //update car
     let maxScore=0;
     for(let i=0;i<cars.length;i++) {
-        if(!cars[i].dead && playCheckbox.checked()) {
+        if(!cars[i].dead && playCheckbox.checked) {
             cars[i].update()
             cars[i].detectWalls(walls)
             cars[i].think()
@@ -74,7 +79,6 @@ function draw() {
     }
 
     //drawing cars and walls with zooming and following the best car
-    // console.log(camera.dist(cars[ga.bestIndex].pos))
     let cameraDistFromCar = camera.dist(cars[ga.bestIndex].pos)
     if(cameraDistFromCar>20) {
         // console.log('halo')
@@ -85,21 +89,23 @@ function draw() {
     }
 
     push()
-    if(playCheckbox.checked()) {
-      translate(width/2,height/2)
-      scale(2)
-      translate(-camera.x,-camera.y)
+    if(playCheckbox.checked) {
+        translate(width/2,height/2)
+        translate(-camera.x,-camera.y)
     }
 
     for(let wall of walls)
         wall.show()
+
     for(let car of cars)
         car.show()
     pop()
 
+
+
     //starting new generation
     if((deadCounter==cars.length || timeCount>5000 || (genCount<30 && timeCount>2000)
-    ||(genCount<15 && timeCount>500)) && (deadCounter==cars.length || !noGenBox.checked())) {
+    ||(genCount<15 && timeCount>500)) && (deadCounter==cars.length || !runNonStopCheckBox.checked)) {
         for(let car of cars){
             if(!car.dead)
                 savedCars.push(car)
@@ -112,7 +118,7 @@ function draw() {
         camera=start.copy()
     }
 
-    if(playCheckbox.checked())
+    if(playCheckbox.checked)
         timeCount++
 
     //its used to add new walls to the map
@@ -128,19 +134,19 @@ function draw() {
         wall.p4=createVector(wall.p2.x+cos(-wall.angle+PI/2)*wall.h,wall.p2.y+sin(-wall.angle+PI/2)*wall.h)
         wall.show();
     }
-    fill(255)
-    textSize(32)
-    text('generation: '+genCount,30, 50);
+
+    generationCountText.innerHTML = `Generation: ${genCount}`;
 }
+
 
 //also used to build new walls
 function keyTyped() {
-    if(count==1 && key===  ' ') {
+    if(count==1 && key === 'w') {
         walls.push(wall)
         count=-1;
         wall=null;
     }
-    if(count==0  && key=== ' ') {
+    if(count==0  && key === 'w') {
         wall = new Wall(mouseX,mouseY,200,20,0)
     }
     count++;
@@ -160,8 +166,24 @@ function steer(car) {
 
 function onRestartButtonClicked(){
     for(let i=0;i<TOTAL;i++){
-        cars[i].brain = new NeuralNetwork(6,7,4)
+        cars[i].brain = new NeuralNetwork(6,5,4)
     }
     ga.nextGeneration()
     genCount=0
+}
+
+function updateCanvas() {
+    myCanvas.width = window.innerWidth;
+    myCanvas.height = window.innerHeight;
+}
+
+function clearWalls() {
+    console.log('clear!')
+    walls = []
+    for(let car of cars){
+        car.pos = start;
+        car.heading = 0; 
+    }
+
+    playCheckbox.checked = false;
 }

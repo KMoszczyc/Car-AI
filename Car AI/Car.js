@@ -1,15 +1,18 @@
 let carImg;
+let carImgSmall;
 let bestcarImg;
-function preload() {
-    carImg = loadImage('imgs/car.png');
-    bestcarImg = loadImage('imgs/best_car.png');
-}
+let bestcarImgSmall;
 
+function preload() {
+    carImg = loadImage('imgs/red_car_big.png');
+    bestcarImg = loadImage('imgs/green_car_big.png');
+}
+ 
 class Car {
     constructor(x,y,brain) {
         this.pos=createVector(x,y)
-        this.w=10
-        this.h=20
+        this.w=20
+        this.h=40
         this.heading=0
         this.vel=1
         this.score=0
@@ -32,7 +35,6 @@ class Car {
         inputs[2]=this.sensorsLength[2]
         inputs[3]=this.sensorsLength[3]
         inputs[4]=this.sensorsLength[4]
-        // inputs[5]=this.heading
         inputs[5]=this.vel
         let output = this.brain.feedforward(inputs)
         if(output[0]>0.5)
@@ -48,7 +50,6 @@ class Car {
     update() {
         let vel = p5.Vector.fromAngle(this.heading)
         vel.mult(this.vel)
-        vel.limit(20)
         this.score+=vel.mag()
         if(start.dist(this.pos)>this.maxDist){
             this.maxDist=vel.dist(this.pos)
@@ -95,7 +96,7 @@ class Car {
             image(carImg, -this.w,-this.h/4);
         pop()
 
-        if(showSensorsBox.checked() && !this.dead) {
+        if(showSensorsCheckBox.checked && !this.dead) {
             stroke(50)
             for(let i=0;i<this.sensors.length;i++) {
                 line(this.frontPos.x,this.frontPos.y,this.frontPos.x+cos(this.sensors[i]+this.heading)*this.sensorsLength[i],this.frontPos.y+sin(this.sensors[i]+this.heading)*this.sensorsLength[i])
