@@ -4,11 +4,11 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<link rel="stylesheet" href="css/style.css">
 	<link rel="stylesheet" href="css/checkbox.css">
+	
 	<title>Car AI</title>
-
-
 </head>
 <body>
 	<div id="canvas-container">
@@ -24,31 +24,48 @@
 				</ul>
 			</div>
 
-			<div class="settings-container">
-				<div class="checkbox-container">
-					<label class="checkbox-inner-container">Play / Pause
-						<input type="checkbox" id="play-box">
-						<span class="checkmark"></span>
-					</label>
+			<div>
+				<div class="settings-container">
+					<div class="checkbox-container">
+						<label class="checkbox-inner-container">Play / Pause
+							<input type="checkbox" id="play-box">
+							<span class="checkmark"></span>
+						</label>
+					</div>
+				
+					<div class="checkbox-container">
+						<label class="checkbox-inner-container">Run n dont stop!
+							<input type="checkbox" id="run-dont-stop-box">
+							<span class="checkmark"></span>
+						</label>
+					</div>
+	
+					<div class="checkbox-container">
+						<label class="checkbox-inner-container">Show sensors!
+							<input type="checkbox" id="show-sensors-box">
+							<span class="checkmark"></span>
+						</label>
+					</div>
+					
+					<div class="flex mt-1">
+						<button class="btn" id="clear-racetrack-btn">Clear Racetrack</button>
+						<button class="btn" id="restart-btn">Restart</button>
+					</div>
 				</div>
-			
-				<div class="checkbox-container">
-					<label class="checkbox-inner-container">Run n dont stop!
-						<input type="checkbox" id="run-dont-stop-box">
-						<span class="checkmark"></span>
-					</label>
+	
+				<div class="settings-container align-center">
+					<h2>Racetracks</h2>
+					<div id="racetracks-container">
+						<form id="save-racetrack-form">
+							<input type="text" name="racetrack" placeholder="racetrack name" required>
+							<input class="btn" type="submit" value="Save">
+						</form>
+	
+						<ul id="racetracks-list">
+						</ul>
+					</div>
+					<button class="btn hide-btn" id="show-racetracks-btn"> <i class="fa fa-angle-up fa-lg"></i></button>
 				</div>
-
-				<div class="checkbox-container">
-					<label class="checkbox-inner-container">Show sensors!
-						<input type="checkbox" id="show-sensors-box">
-						<span class="checkmark"></span>
-					</label>
-				</div>
-
-				<button class="btn" id="clear-walls-btn">Clear Walls</button>
-				<button class="btn" id="restart-btn">Restart</button>
-
 			</div>
 		</div>
 	</div>

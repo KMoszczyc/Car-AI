@@ -12,19 +12,27 @@ let simulationSpeedSlider;
 let secondBestIndex=0;
 let camera;
 let ga;
-let myCanvas
 
 const generationCountText = document.querySelector('#generation-count');
 const playCheckbox = document.querySelector('#play-box');
 const runNonStopCheckBox = document.querySelector('#run-dont-stop-box');
 const showSensorsCheckBox = document.querySelector('#show-sensors-box');
-const clearWallsButton = document.querySelector('#clear-walls-btn');
+const clearRacetrackButton = document.querySelector('#clear-racetrack-btn');
 const restartButton = document.querySelector('#restart-btn');
+const saveRacetrackForm = document.querySelector('#save-racetrack-form');
+const racetrackName = document.querySelector('#save-racetrack-form');
+const racetrackList = document.querySelector('#racetracks-list');
+const showRacetracksButton = document.querySelector('#show-racetracks-btn');
+const racetracksContainer = document.querySelector('#racetracks-container');
+let deleteRacetrackButtons = null;
+
+
+let racetracksContainerVisibility = true;
 
 function setup() {
     myCanvas = createCanvas(window.innerWidth, window.innerHeight);
     myCanvas.parent("canvas-container");
-    window.addEventListener('resize', updateCanvas, false);
+    window.addEventListener('resize', () => resizeCanvas(window.innerWidth, window.innerHeight) , false);
 
     start=createVector(300,250)
 
@@ -34,8 +42,18 @@ function setup() {
 
     camera = start.copy()
     ga = new GA()
-    clearWallsButton.onclick = clearWalls;
+
+    clearRacetrackButton.onclick = clearRacetrack;
     restartButton.onclick = onRestartButtonClicked;
+    saveRacetrackForm.addEventListener('submit', event => {
+        event.preventDefault()
+        const racetrackName = event.target['racetrack'].value;
+        saveRacetrack(racetrackName)
+        event.target['racetrack'].value=""
+      })
+    showRacetracksButton.onclick = showHideRacetracks
+
+    loadRacetracksOnRefresh();
 }
 
 function draw() {
@@ -141,15 +159,17 @@ function simulationFrame(){
 
 //also used to build new walls
 function keyTyped() {
-    if(count==1 && key === 'w') {
-        walls.push(wall)
-        count=-1;
-        wall=null;
+    if(key === 'w' && document.activeElement.tagName!='INPUT'){
+        if(count==1) {
+            walls.push(wall)
+            count=-1;
+            wall=null;
+        }
+        if(count==0) {
+            wall = new Wall(mouseX,mouseY,0)
+        }
+        count++;
     }
-    if(count==0  && key === 'w') {
-        wall = new Wall(mouseX,mouseY,200,20,0)
-    }
-    count++;
 }
 
 //not used now, steering the cars with keys
@@ -165,6 +185,8 @@ function steer(car) {
 }
 
 function onRestartButtonClicked(){
+    clearRacetrack();
+
     for(let i=0;i<TOTAL;i++){
         cars[i].brain = new NeuralNetwork(6,5,4)
     }
@@ -172,18 +194,95 @@ function onRestartButtonClicked(){
     genCount=0
 }
 
-function updateCanvas() {
-    myCanvas.width = window.innerWidth;
-    myCanvas.height = window.innerHeight;
-}
-
-function clearWalls() {
+function clearRacetrack() {
     console.log('clear!')
     walls = []
     for(let car of cars){
-        car.pos = start;
+        car.pos = start.copy();
         car.heading = 0; 
     }
 
     playCheckbox.checked = false;
+}
+
+function saveRacetrack(racetrackName) {
+    let wallsStringified = []
+    for(let wall of walls) {
+        wallsStringified.push(wall.toJSON())
+    }
+
+    console.log(JSON.stringify({racetrackName: wallsStringified}))
+
+    localStorage.setItem(racetrackName, JSON.stringify(wallsStringified));
+    addRacetrackItem(racetrackName)
+
+}
+
+function loadRacetrack(racetrackName){
+    clearRacetrack()
+
+    let parsedWalls = JSON.parse(localStorage.getItem(racetrackName) || '[]')
+    for(let item of parsedWalls) {
+        console.log(item)
+        walls.push(new Wall(item.x1, item.y1, item.angle, item.w, item.h))
+    }
+}
+
+function addRacetrackItem(racetrackName){
+    const li = document.createElement("li");
+    const span = document.createElement("span");
+
+    li.appendChild(document.createTextNode(racetrackName));
+    li.addEventListener('click', () => loadRacetrack(racetrackName))
+
+    span.className = "close"
+    span.appendChild(document.createTextNode("\u00D7"))
+    li.appendChild(span)
+    racetrackList.appendChild(li);
+
+}
+
+function loadRacetracksOnRefresh(){
+    const racetrackKeys = Object.keys(localStorage)
+    // console.log(racetrackKeys)
+    for(let racetrackName of racetrackKeys){
+        addRacetrackItem(racetrackName)
+    }
+
+    
+    deleteRacetracksOnClick()
+}
+
+function showHideRacetracks(){
+    const icon = showRacetracksButton.querySelector('i');
+    if(racetracksContainerVisibility) {
+        icon.classList.remove('fa-angle-up');
+        icon.classList.add('fa-angle-down');
+        racetracksContainer.style.display = "none"
+        racetracksContainerVisibility = false
+    }
+    else {
+        icon.classList.remove('fa-angle-down');
+        icon.classList.add('fa-angle-up');
+        racetracksContainer.style.display = "block"
+
+        racetracksContainerVisibility = true
+    }
+}
+
+function deleteRacetracksOnClick(){
+    deleteRacetrackButtons = document.querySelectorAll('.close');
+    for(let i=0; i<deleteRacetrackButtons.length; i++){
+        const li = deleteRacetrackButtons[i].parentElement
+        console.log(deleteRacetrackButtons[i].parentElement)
+
+        deleteRacetrackButtons[i].onclick = (e) => {
+            e.cancelBubble = true;
+            li.removeChild(li.lastChild)
+            console.log(li)
+            console.log('delete: '+ li.innerText)
+            localStorage.removeItem(li.innerText);
+            li.remove()
+        }
+    }
 }

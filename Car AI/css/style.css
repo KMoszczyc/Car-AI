@@ -3,6 +3,13 @@
 :root {
   --button-color: #2196F3;
   --transparent-bg: rgba(10,10,10,0.7);
+  --transparent-hover-bg: rgba(20,20,20,0.7);
+  --hover-dark: #333;
+}
+
+* {
+  box-sizing: border-box;
+  user-select:none;
 }
 
 body {
@@ -22,10 +29,14 @@ canvas {
 }
 
 h1 {
-  margin: 0;
+  margin: 20px;
   padding: 10px 20px;
   background: var(--transparent-bg);
   border-radius: 8px;
+}
+
+h2 {
+  margin: 0;
 }
 
 ul {
@@ -33,11 +44,11 @@ ul {
   padding: 10px 20px;
   background: var(--transparent-bg);
   border-radius: 8px;
-  margin: 0;
 }
 
 li{
   padding: 5px;
+  position: relative;
 }
 
 .container {
@@ -46,6 +57,12 @@ li{
   left: 0;
   width: 100%;
   height: 100%;
+}
+
+.flex {
+  display: flex;
+  justify-content: center;
+  align-content: center;
 }
 
 .canvas-container {
@@ -58,27 +75,24 @@ li{
   width: 100%;
   justify-content: space-between;
   flex-wrap: wrap; 
-  padding: 20px;
 }
 
 .settings-container {
   background: var(--transparent-bg);
   display: block;
+  width: 331px;
   padding: 20px;
-  margin-right: 40px;
+  margin: 20px;
   border-radius: 8px;
-}
-
-.settings-container > * {
-  margin: 10px 20px;
 }
 
 .btn {
   display: inline-block;
-  padding: 10px 30px;
+  padding: 10px 20px;
+  margin-left: 10px;
   font: normal 16px 'Roboto', Helvetica, sans-serif;  
   cursor: pointer;
-  background: var(--button-color);
+  background: #000;
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -93,3 +107,80 @@ li{
   transform: scale(0.98);
 }
 
+.btn > * {
+  display: block;
+}
+
+.hide-btn {
+  width: 100%;
+  margin: 20px 0 0 0;
+  background: #000;
+}
+
+#show-racetracks-btn {
+  display: inline;
+}
+
+
+#save-racetrack-form {
+  margin: 0;
+  padding: 10px 0;
+}
+
+form > input[type=text] {
+  height: 100%;
+  padding: 10px;
+  background: #000;
+  font: normal 16px 'Roboto', Helvetica, sans-serif;  
+  color: #fff;
+  border-width: 0;
+  border-radius: 5px;
+}
+
+.align-center {
+  text-align:center
+}
+
+#racetracks-list{
+  padding: 0;
+  margin: 0;
+  background-color: #000;
+}
+
+#racetrack-list > li {
+  cursor: pointer;
+  list-style-type: none;
+  position: relative;
+  transition: 0.5s;
+}
+
+#racetracks-list > li:hover {
+  background-color: var(--transparent-hover-bg);
+}
+
+
+/* Style the close button */
+.close {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 5px 10px;
+}
+
+.close:hover {
+  background-color: #f44336;
+  color: white;
+}
+
+
+.mt-1{
+  margin-top: 1rem;
+}
+
+.mt-2{
+  margin-top: 2rem;
+}
+
+.mt-3{
+  margin-top: 3rem;
+}
