@@ -2,8 +2,8 @@
 
 :root {
   --button-color: #2196F3;
-  --transparent-bg: rgba(10,10,10,0.7);
-  --transparent-hover-bg: rgba(20,20,20,0.7);
+  --transparent-bg: rgba(30,30,30,0.7);
+  --transparent-hover-bg: rgba(60,60,60,0.7);
   --hover-dark: #333;
 }
 
@@ -37,6 +37,8 @@ h1 {
 
 h2 {
   margin: 0;
+  text-align: center;
+  padding: 10px 0;
 }
 
 ul {
@@ -73,6 +75,7 @@ li{
   position: absolute;
   display: flex;
   width: 100%;
+  height: 100%;
   justify-content: space-between;
   flex-wrap: wrap; 
 }
@@ -84,6 +87,19 @@ li{
   padding: 20px;
   margin: 20px;
   border-radius: 8px;
+}
+
+#racetracks-container, #settings-container {
+  overflow: hidden;  /* Hide the element content, while height = 0 */
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.15s ease-out, opacity 0.15s ease-out;
+}
+
+#racetracks-container.visible, #settings-container.visible  {
+  max-height: 500px;
+  opacity: 1;
+  transition: max-height 0.25s ease-in, opacity 0.25s ease-in;
 }
 
 .btn {
@@ -183,4 +199,19 @@ form > input[type=text] {
 
 .mt-3{
   margin-top: 3rem;
+}
+
+.p-1{
+  padding: 1rem;
+}
+.p-2{
+  padding: 2rem;
+}
+.p-3{
+  padding: 3rem;
+}
+
+.bottom{
+  position: absolute;
+  bottom: 0;
 }

@@ -34,7 +34,7 @@ toArray() {
 randomize() {
   for(let i=0;i<this.rows;i++) {
     for(let j=0;j<this.cols;j++) {
-      this.data[i][j]=Math.random()*2-1;
+      this.data[i][j]=(Math.random()*2-1);
     }
   }
 }

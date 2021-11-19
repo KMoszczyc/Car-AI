@@ -15,47 +15,60 @@
 		<div class="overlay">
 			<div>
 				<h1 id="generation-count">Generation: </h1>
+
+				<div class="p-1 bottom">
+					<ul>
+						<li>Press 'w' -> move mouse -> 'w' again to make a wall</li>
+						<li>Left click on the wall to delete it</li>
+					</ul>
+				</div>
 			</div>
 
-			<div>
-				<ul>
-					<li>Press 'w' -> move mouse -> 'w' again to make a wall</li>
-					<li>Left click on the wall to delete it</li>
-				</ul>
-			</div>
+			
 
 			<div>
 				<div class="settings-container">
-					<div class="checkbox-container">
-						<label class="checkbox-inner-container">Play / Pause
-							<input type="checkbox" id="play-box">
-							<span class="checkmark"></span>
-						</label>
-					</div>
-				
-					<div class="checkbox-container">
-						<label class="checkbox-inner-container">Run n dont stop!
-							<input type="checkbox" id="run-dont-stop-box">
-							<span class="checkmark"></span>
-						</label>
-					</div>
-	
-					<div class="checkbox-container">
-						<label class="checkbox-inner-container">Show sensors!
-							<input type="checkbox" id="show-sensors-box">
-							<span class="checkmark"></span>
-						</label>
-					</div>
+					<h2>Controls</h2>
+					<div id="settings-container" class="visible">
+						<div class="checkbox-container">
+							<label class="checkbox-inner-container">Play / Pause
+								<input type="checkbox" id="play-box">
+								<span class="checkmark"></span>
+							</label>
+						</div>
 					
-					<div class="flex mt-1">
-						<button class="btn" id="clear-racetrack-btn">Clear Racetrack</button>
-						<button class="btn" id="restart-btn">Restart</button>
+						<div class="checkbox-container">
+							<label class="checkbox-inner-container">Run n dont stop!
+								<input type="checkbox" id="run-dont-stop-box">
+								<span class="checkmark"></span>
+							</label>
+						</div>
+		
+						<div class="checkbox-container">
+							<label class="checkbox-inner-container">Show sensors!
+								<input type="checkbox" id="show-sensors-box">
+								<span class="checkmark"></span>
+							</label>
+						</div>
+
+						<div class="checkbox-container">
+							<label class="checkbox-inner-container">Draw best Neural Network!
+								<input type="checkbox" id="show-neuralnetwork-box">
+								<span class="checkmark"></span>
+							</label>
+						</div>
+						
+						<div class="flex mt-1">
+							<button class="btn" id="clear-racetrack-btn">Clear Racetrack</button>
+							<button class="btn" id="restart-btn">Restart</button>
+						</div>
 					</div>
+					<button class="btn hide-btn" id="show-settings-btn"> <i class="fa fa-angle-up fa-lg"></i></button>
 				</div>
 	
 				<div class="settings-container align-center">
 					<h2>Racetracks</h2>
-					<div id="racetracks-container">
+					<div id="racetracks-container" class="visible">
 						<form id="save-racetrack-form">
 							<input type="text" name="racetrack" placeholder="racetrack name" required>
 							<input class="btn" type="submit" value="Save">
