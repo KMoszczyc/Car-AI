@@ -88,18 +88,18 @@ function simulationFrame(){
 
     //update walls - collision detection
     for(let i=walls.length-1;i>=0;i--) {
-      for(let j=cars.length-1;j>=0;j--) {
-        if(!cars[j].dead && walls[i].hits(cars[j].frontPos.x,cars[j].frontPos.y)) {
-        cars[j].dead=true;
-        deadCounter++
-        savedCars.push(cars[j]);
-      }
-    }
+        for(let j=cars.length-1;j>=0;j--) {
+            if(!cars[j].dead && walls[i].hits(cars[j].frontPos.x,cars[j].frontPos.y)) {
+            cars[j].dead=true;
+            deadCounter++
+            savedCars.push(cars[j]);
+            }   
+        }
 
-     if (mouseIsPressed && mouseButton === LEFT)
-         if(walls[i].hits(mouseX,mouseY)) {
-           walls.splice(i,1)
-       }
+    //  if (mouseIsPressed && mouseButton === LEFT)
+    //      if(walls[i].hits(mouseX,mouseY)) {
+    //        walls.splice(i,1)
+        // }       
     }
 
     //drawing cars and walls with zooming and following the best car
@@ -176,6 +176,13 @@ function keyTyped() {
             wall = new Wall(mouseX,mouseY,0)
         }
         count++;
+    }
+
+    if(key === 'd' && document.activeElement.tagName!='INPUT'){
+        for(let i=0; i<walls.length; i++) {
+            if(walls[i].hits(mouseX,mouseY)) 
+                walls.splice(i,1)
+        }
     }
 }
 
