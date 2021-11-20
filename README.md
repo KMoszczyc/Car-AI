@@ -8,6 +8,11 @@ Car AI steered with neural network that is trained by genetic algorithm in p5.js
 ## Neural Network architecture
 ![architecture](https://user-images.githubusercontent.com/61971053/129604658-ecb8c751-9148-48cc-804e-a1b71781be0b.png)
 
+## Features
+- Play and pause the simulation
+- Play the simulation without starting the next generation
+- Show sensors of neural networks
+- Restart the simulation
 
 ## Genetic Algorithm
 algorithm:
@@ -46,6 +51,7 @@ So this rewards cars that live long, travel longest distance but most importantl
 ### Now the UI looks like that!
 ![image](https://user-images.githubusercontent.com/61971053/142705910-c7d1fc76-33a8-42f4-840e-39ed1c4022f0.png)
 #### New features:
+- clear current racetrack
 - save and load racetracks (local storage)
 - delete racetracks
 - visualize best neural network
