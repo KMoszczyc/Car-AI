@@ -1,6 +1,8 @@
 # Car-AI
 Car AI steered with neural network that is trained by genetic algorithm in p5.js.
 
+## Play with it! -  https://kmoszczyc.github.io/car-ai/
+
 ## Car sensors
 ![car](https://user-images.githubusercontent.com/61971053/129604685-7c12f101-c72c-439a-8cd0-a6cd449fa3fa.png)
 
