@@ -42,6 +42,13 @@ So this rewards cars that live long, travel longest distance but most importantl
 ## Generation 207
 ![generation_207](https://user-images.githubusercontent.com/61971053/116286092-1f2ae980-a78f-11eb-9a18-d36f3a166b70.gif)
 
+## Update!
+### Now the UI looks like that!
+![image](https://user-images.githubusercontent.com/61971053/142705910-c7d1fc76-33a8-42f4-840e-39ed1c4022f0.png)
+#### New features:
+- save and load racetracks (local storage)
+- delete racetracks
+- visualize best neural network
 
 
 Neural network library based on: https://www.youtube.com/watch?v=XJ7HLz9VYz0&list=PLRqwX-V7Uu6aCibgK1PTWWu9by6XFdCfh by Dan Shiffman
