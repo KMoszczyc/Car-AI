@@ -77,4 +77,20 @@ class Utils {
             }
         }
     }
+
+    static async loadJSON(path) {   
+        return new Promise((resolve, reject) => {
+            var xobj = new XMLHttpRequest();
+            xobj.overrideMimeType("application/json");
+            xobj.open('GET', path, true); 
+            xobj.onload  = function () {
+                if (xobj.readyState == 4 && xobj.status == "200") {
+                    resolve(xobj.responseText);
+                } else {
+                    reject(xobj);
+                }
+            };
+            xobj.send(null);  
+        })
+    }
 }

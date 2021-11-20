@@ -32,6 +32,8 @@ const settingsContainer = document.getElementById('settings-container');
 let deleteRacetrackButtons = null;
 let racetracksContainerVisibility = true;
 
+const racetrackPaths = ['racetracks/track1.json', 'racetracks/track2.json']
+
 function setup() {
     myCanvas = createCanvas(window.innerWidth, window.innerHeight);
     myCanvas.parent("canvas-container");
@@ -59,7 +61,10 @@ function setup() {
     showRacetracksButton.onclick = () => showHideContainer('racetracks-container', 'show-racetracks-btn');
     showSettingsButton.onclick = () => showHideContainer('settings-container', 'show-settings-btn');
 
+    loadRacetrackLocally()
     loadRacetracksOnRefresh();
+    deleteRacetracksOnClick();
+    
 }
 
 function draw() {
@@ -228,7 +233,26 @@ function saveRacetrack(racetrackName) {
 
     localStorage.setItem(racetrackName, JSON.stringify(wallsStringified));
     addRacetrackItem(racetrackName)
+}
 
+async function loadRacetrackLocally(){
+    const racetrackKeys = Object.keys(localStorage)
+
+    // const response = await fetch("racetracks/track1.json")
+    // const data = JSON.parse(response)
+
+    for(const path of racetrackPaths){
+        console.log(path)
+        let response = await Utils.loadJSON(path)
+        let data = JSON.parse(response)
+        console.log(data.walls)
+        if(!racetrackKeys.includes(data.racetrackName)) {
+            localStorage.setItem(data.racetrackName, JSON.stringify(data.walls));
+            addRacetrackItem(data.racetrackName)
+        }
+    }
+
+    deleteRacetracksOnClick()
 }
 
 function loadRacetrack(racetrackName){
@@ -251,7 +275,6 @@ function addRacetrackItem(racetrackName){
     span.appendChild(document.createTextNode("\u00D7"))
     li.appendChild(span)
     racetrackList.appendChild(li);
-
 }
 
 function loadRacetracksOnRefresh(){
@@ -260,8 +283,6 @@ function loadRacetracksOnRefresh(){
     for(let racetrackName of racetrackKeys){
         addRacetrackItem(racetrackName)
     }
-
-    deleteRacetracksOnClick()
 }
 
 function showHideContainer(containerID, buttonID){
@@ -287,6 +308,7 @@ function deleteRacetracksOnClick(){
         const li = deleteRacetrackButtons[i].parentElement
 
         deleteRacetrackButtons[i].onclick = (e) => {
+            console.log('delete: '+ li.innerText)
             e.cancelBubble = true;
             li.removeChild(li.lastChild)
             localStorage.removeItem(li.innerText);
