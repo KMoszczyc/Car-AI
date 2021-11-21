@@ -233,6 +233,7 @@ function saveRacetrack(racetrackName) {
 
     localStorage.setItem(racetrackName, JSON.stringify(wallsStringified));
     addRacetrackItem(racetrackName)
+    deleteRacetracksOnClick()
 }
 
 async function loadRacetrackLocally(){
