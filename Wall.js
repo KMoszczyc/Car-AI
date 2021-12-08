@@ -1,5 +1,5 @@
 class Wall {
-    constructor(x1, y1, angle, w=0, h=20) {
+    constructor(x1, y1, angle, w=0, h=40) {
         this.w = w;
         this.h = h;
         this.angle = angle;

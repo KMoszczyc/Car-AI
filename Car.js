@@ -20,8 +20,8 @@ class Car {
         this.fitness=0
         this.best=false;
         this.sensors=[-PI*2/5,-PI/5,0,PI/5,PI*2/5]
-        this.sensorsLength=[100,100,100,100,100]
-        this.sensorsRange=200;
+        this.sensorsRange=500;
+        this.sensorsLength=[100,100,100,100,100].map((x) => this.sensorsRange)
         this.frontPos=createVector(this.pos.x,this.pos.y)
         this.frontPos.add(cos(this.heading)*this.h/2,sin(this.heading)*this.h/2)
         this.dead=false
@@ -67,7 +67,7 @@ class Car {
 
     detectWalls(obstacles) {
         for(let i=0;i<this.sensors.length;i++) {
-            this.sensorsLength[i]=200;
+            this.sensorsLength[i]=this.sensorsRange;
             for(let j=0;j<obstacles.length;j++) {
                 let p2 = createVector(this.frontPos.x+cos(this.sensors[i]+this.heading)*this.sensorsRange,this.frontPos.y+sin(this.sensors[i]+this.heading)*this.sensorsRange)
                 stroke(255)
