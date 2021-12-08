@@ -167,7 +167,7 @@ function simulationFrame(){
  
     //starting new generation
     if((deadCounter==cars.length || timeCount>5000 || (genCount<30 && timeCount>2000)
-    ||(genCount<15 && timeCount>500)) && (deadCounter==cars.length || !runNonStopCheckBox.checked)) {
+    ||(genCount<15 && timeCount>1000)) && (deadCounter==cars.length || !runNonStopCheckBox.checked)) {
         for(let car of cars){
             if(!car.dead)
                 savedCars.push(car)

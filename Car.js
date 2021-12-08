@@ -44,7 +44,7 @@ class Car {
         if(output[1]>0.5)
             this.heading+=0.1
         if(output[2]>0.5 && output[3]<0.5) // dont accelerate if brakes are on
-            this.vel+= 1/(this.vel) 
+            this.vel+= 0.05 
         if(output[3]>0.5 && this.vel>1) // dont slow down to 0
             this.vel*=0.99
     }
