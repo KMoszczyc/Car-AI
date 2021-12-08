@@ -40,12 +40,12 @@ class Car {
         
         let output = this.brain.feedforward(inputs)
         if(output[0]>0.5)
-            this.heading+=0.1
-        if(output[1]>0.5)
             this.heading-=0.1
-        if(output[2]>0.5)
-            this.vel+=0.03
-        if(output[3]>0.5 && this.vel>1)
+        if(output[1]>0.5)
+            this.heading+=0.1
+        if(output[2]>0.5 && output[3]<0.5) // dont accelerate if brakes are on
+            this.vel+= 1/(this.vel) 
+        if(output[3]>0.5 && this.vel>1) // dont slow down to 0
             this.vel*=0.99
     }
 
@@ -59,7 +59,7 @@ class Car {
         this.pos.add(vel)
         this.frontPos=this.pos.copy()
         this.frontPos.add(cos(this.heading)*this.h/2,sin(this.heading)*this.h/2)
-        this.borders()
+        // this.borders()
 
         if(!this.dead)
             this.lifeCount++

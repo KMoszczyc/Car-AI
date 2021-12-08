@@ -12,9 +12,18 @@ let simulationSpeedSlider;
 let secondBestIndex=0;
 let camera;
 let ga;
+let zoom=1
+let sf = 1, tx = 0, ty = 0;
+let startPosOnMousePress;
+let isMousePressed
+let offsetX = 0;
+let offsetY = 0;
+let mouseShiftedX = 0
+let mouseShiftedY = 0
 
 const generationCountText = document.querySelector('#generation-count');
 const playCheckbox = document.querySelector('#play-box');
+const lockCameraCheckbox = document.querySelector('#lock-camera-box');
 const runNonStopCheckBox = document.querySelector('#run-dont-stop-box');
 const showSensorsCheckBox = document.querySelector('#show-sensors-box');
 const showNeuralNetworkCheckBox = document.querySelector('#show-neuralnetwork-box');
@@ -39,15 +48,18 @@ function setup() {
     myCanvas.parent("canvas-container");
     window.addEventListener('resize', () => resizeCanvas(window.innerWidth, window.innerHeight) , false);
 
-    start=createVector(300,250)
+    camera = createVector(0, 0)
+    start=createVector(300 + camera.x, 250+camera.y)
+    console.log(width, height)
 
     for(let i=0;i<TOTAL;i++){
         cars.push(new Car(start.x, start.y, new NeuralNetwork(6,5,4)))
     }
 
-    camera = start.copy()
-    ga = new GA()
 
+    // camera = start.copy()
+    console.log(window.innerWidth, window.innerHeight)
+    ga = new GA()
 
     showNeuralNetworkCheckBox.click()
     clearRacetrackButton.onclick = clearRacetrack;
@@ -64,11 +76,14 @@ function setup() {
     loadRacetrackLocally()
     loadRacetracksOnRefresh();
     deleteRacetracksOnClick();
-    
 }
 
 function draw() {
     background(0)
+
+    mouseShiftedX = (mouseX - camera.x)/sf
+    mouseShiftedY = (mouseY - camera.y)/sf
+
     simulationFrame()
 }
 
@@ -99,40 +114,57 @@ function simulationFrame(){
             deadCounter++
             savedCars.push(cars[j]);
             }   
-        }
-
-    //  if (mouseIsPressed && mouseButton === LEFT)
-    //      if(walls[i].hits(mouseX,mouseY)) {
-    //        walls.splice(i,1)
-        // }       
+        }    
     }
 
-    //drawing cars and walls with zooming and following the best car
+    //Lock camera on the best car
     let cameraDistFromCar = camera.dist(cars[ga.bestIndex].pos)
-    if(cameraDistFromCar>20) {
-        let temp = p5.Vector.sub(cars[ga.bestIndex].pos,camera)
+    if(lockCameraCheckbox.checked && playCheckbox.checked && cameraDistFromCar>20) {
+        let temp = p5.Vector.sub(cars[ga.bestIndex].pos, camera)
         temp.normalize()
-        temp.mult(map(cameraDistFromCar, 0, height, 0, 20))
+        temp.mult(map(cameraDistFromCar, 0, height, 0, 40))
         camera.add(temp)
     }
 
+    // Draw cars and walls
     push()
-    if(playCheckbox.checked) {
-        translate(width/2,height/2)
+    translate(camera.x, camera.y);
+    scale(sf);
+
+    if(playCheckbox.checked && lockCameraCheckbox.checked) {
+        translate(-camera.x,-camera.y)
+        translate(window.innerWidth/2,window.innerHeight/2)
         translate(-camera.x,-camera.y)
     }
 
     for(let wall of walls)
         wall.show()
 
+    if(wall!=null && count==1) 
+        wall.show();
+
     for(let car of cars)
         car.show()
     cars[ga.bestIndex].show()
     pop()
 
+
+    //its used to add new walls to the map
+    if(wall!=null && count==1) {
+        let v = createVector(wall.p1.x, wall.p1.y)
+        let m = createVector(mouseShiftedX, mouseShiftedY)
+        let angle = -m.sub(v).heading()
+        wall.angle=angle;
+        wall.w=dist(mouseShiftedX, mouseShiftedY, wall.p1.x, wall.p1.y)
+        wall.p2=createVector(wall.p1.x+cos(-wall.angle)*wall.w,wall.p1.y+sin(-wall.angle)*wall.w)
+        wall.p3=createVector(wall.p1.x+cos(-wall.angle+PI/2)*wall.h,wall.p1.y+sin(-wall.angle+PI/2)*wall.h)
+        wall.p3=createVector(wall.p1.x+cos(-wall.angle+PI/2)*wall.h,wall.p1.y+sin(-wall.angle+PI/2)*wall.h)
+        wall.p4=createVector(wall.p2.x+cos(-wall.angle+PI/2)*wall.h,wall.p2.y+sin(-wall.angle+PI/2)*wall.h)
+    }
+
     if(showNeuralNetworkCheckBox.checked)
         Utils.drawNeuralNetwork(cars[ga.bestIndex].brain)
-    
+ 
     //starting new generation
     if((deadCounter==cars.length || timeCount>5000 || (genCount<30 && timeCount>2000)
     ||(genCount<15 && timeCount>500)) && (deadCounter==cars.length || !runNonStopCheckBox.checked)) {
@@ -145,24 +177,15 @@ function simulationFrame(){
         timeCount=0;
         deadCounter=0;
         genCount++
-        camera=start.copy()
     }
 
     if(playCheckbox.checked)
         timeCount++
 
-    //its used to add new walls to the map
-    if(wall!=null && count==1) {
-        let v = createVector(wall.p1.x,wall.p1.y)
-        let m = createVector(mouseX,mouseY)
-        let angle = -m.sub(v).heading()
-        wall.angle=angle;
-        wall.w=dist(mouseX,mouseY,wall.p1.x,wall.p1.y)
-        wall.p2=createVector(wall.p1.x+cos(-wall.angle)*wall.w,wall.p1.y+sin(-wall.angle)*wall.w)
-        wall.p3=createVector(wall.p1.x+cos(-wall.angle+PI/2)*wall.h,wall.p1.y+sin(-wall.angle+PI/2)*wall.h)
-        wall.p3=createVector(wall.p1.x+cos(-wall.angle+PI/2)*wall.h,wall.p1.y+sin(-wall.angle+PI/2)*wall.h)
-        wall.p4=createVector(wall.p2.x+cos(-wall.angle+PI/2)*wall.h,wall.p2.y+sin(-wall.angle+PI/2)*wall.h)
-        wall.show();
+    // move camera with mouse
+    if(mouseIsPressed){
+        camera.x -= pmouseX - mouseX
+        camera.y -= pmouseY - mouseY
     }
 
     generationCountText.innerHTML = `Generation: ${genCount}`;
@@ -178,18 +201,34 @@ function keyTyped() {
             wall=null;
         }
         if(count==0) {
-            wall = new Wall(mouseX,mouseY,0)
+            console.log(camera.x, camera.y, mouseShiftedX, mouseShiftedY)
+            wall = new Wall(mouseShiftedX, mouseShiftedY, 0)
         }
         count++;
     }
 
     if(key === 'd' && document.activeElement.tagName!='INPUT'){
         for(let i=0; i<walls.length; i++) {
-            if(walls[i].hits(mouseX,mouseY)) 
+            if(walls[i].hits(mouseShiftedX, mouseShiftedY)) 
                 walls.splice(i,1)
         }
     }
 }
+
+function mouseWheel(event) {
+    console.log(event.delta)
+    if (event.deltaY==0)
+        return 
+    let mx = mouseX;
+    let my = mouseY;
+
+    let s = event.deltaY > 0 ? 0.95 : 1.05;
+
+    sf = sf * s;
+    camera.x = mx - s * mx + s * camera.x;
+    camera.y = my - s * my + s * camera.y;
+}
+
 
 //not used now, steering the cars with keys
 function steer(car) {

@@ -3,7 +3,7 @@ class Wall {
         this.w = w;
         this.h = h;
         this.angle = angle;
-        this.p1 = createVector(x1,y1);
+        this.p1 = createVector(x1, y1);
         this.p2 = createVector(this.p1.x + cos(-this.angle)*this.w, this.p1.y + sin(-this.angle)*this.w)
         this.p3 = createVector(this.p1.x + cos(-this.angle+PI/2)*this.h, this.p1.y + sin(-this.angle+PI/2)*this.h)
         this.p4 = createVector(this.p3.x + cos(-this.angle)*this.w, this.p3.y + sin(-this.angle)*this.w)

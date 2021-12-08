@@ -8,12 +8,16 @@ function dsigmoid(y){
 
 
 class NeuralNetwork {
-  constructor (input,hidden,output) {
+  constructor (input, hidden, output) {
     if (input instanceof NeuralNetwork) {
       let a = input;
       this.input_nodes = a.input_nodes;
       this.hidden_nodes = a.hidden_nodes;
       this.output_nodes = a.output_nodes;
+
+      this.inputs = []
+      this.hidden = []
+      this.outputs = []
 
       this.weights_ih = a.weights_ih.copy();
       this.weights_ho = a.weights_ho.copy();
@@ -41,16 +45,20 @@ class NeuralNetwork {
   }
 
   feedforward(input_array) {
+    this.inputs = input_array;
     let inputs = Matrix.fromArray(input_array);
     let hidden = Matrix.multiply(this.weights_ih,inputs);
     hidden.add(this.bias_h);
     hidden.map(sigmoid);
 
+    this.hidden = hidden.toArray()
     let output = Matrix.multiply(this.weights_ho,hidden);
     output.add(this.bias_o);
     output.map(sigmoid);
 
-    return output.toArray();
+    this.outputs = output.toArray()
+
+    return this.outputs;
   }
   train(input_array,target_array) {
     //feedforward
