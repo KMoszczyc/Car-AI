@@ -57,6 +57,8 @@ So this rewards cars that live long, travel longest distance but most importantl
 - save and load racetracks (local storage)
 - delete racetracks
 - visualize best neural network
+- zoom and move around with mouse
+- Lock and unlock the camera
 
 
 Neural network library based on: https://www.youtube.com/watch?v=XJ7HLz9VYz0&list=PLRqwX-V7Uu6aCibgK1PTWWu9by6XFdCfh by Dan Shiffman
