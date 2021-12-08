@@ -63,7 +63,9 @@ li{
 
 .flex {
   display: flex;
-  justify-content: center;
+  /* flex: auto; */
+  gap: 10px;
+  justify-content: space-evenly;
   align-content: center;
 }
 
@@ -80,12 +82,18 @@ li{
   flex-wrap: wrap; 
 }
 
+.icon-n-settings-container { 
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
 .settings-container {
   background: var(--transparent-bg);
   display: block;
-  width: 331px;
-  padding: 20px;
-  margin: 20px;
+  width: 340px;
+  padding: 15px;
+  margin: 20px 20px 20px 0;
   border-radius: 8px;
 }
 
@@ -93,20 +101,32 @@ li{
   overflow: hidden;  /* Hide the element content, while height = 0 */
   max-height: 0;
   opacity: 0;
+  margin-bottom: 0;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
   transition: max-height 0.15s ease-out, opacity 0.15s ease-out;
 }
 
 #racetracks-container.visible, #settings-container.visible  {
   max-height: 500px;
   opacity: 1;
+  margin-bottom: 20px;
   transition: max-height 0.25s ease-in, opacity 0.25s ease-in;
+  /* transition-delay: 0.1s; */
+}
+
+#settings-icon.visible, #racetracks-icon.visible {
+  max-width: 100px;
+  padding: 1rem;
+  opacity: 1; 
+  transition: max-width 0.25s ease-in, padding 0.25s ease-in;
 }
 
 .btn {
   display: inline-block;
   padding: 10px 20px;
-  margin-left: 10px;
-  font: normal 16px 'Roboto', Helvetica, sans-serif;  
+  flex-grow: 1;
+  font: normal 18px 'Roboto', Helvetica, sans-serif;  
   cursor: pointer;
   background: #000;
   color: #fff;
@@ -127,9 +147,13 @@ li{
   display: block;
 }
 
+.width-100 {
+  width: 100%;
+}
+
 .hide-btn {
   width: 100%;
-  margin: 20px 0 0 0;
+  /* margin: 20px 0 0 0; */
   background: #000;
 }
 
@@ -137,15 +161,16 @@ li{
   display: inline;
 }
 
-
 #save-racetrack-form {
   margin: 0;
   padding: 10px 0;
+  display: flex;
+  gap: 10px;
 }
 
 form > input[type=text] {
   height: 100%;
-  padding: 10px;
+  padding: 12px;
   background: #000;
   font: normal 16px 'Roboto', Helvetica, sans-serif;  
   color: #fff;
@@ -188,6 +213,17 @@ form > input[type=text] {
   color: white;
 }
 
+.green-bg {
+  background-color: #4caf50;
+}
+
+.red-bg {
+  background-color: #f44336;
+}
+
+.dark-bg {
+  background-color: #333;
+}
 
 .mt-1{
   margin-top: 1rem;
@@ -214,4 +250,17 @@ form > input[type=text] {
 .bottom{
   position: absolute;
   bottom: 0;
+}
+
+.icon { 
+  background-color: #333;
+  border: none;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  justify-self: center;
+  align-self: center;
+  opacity: 0;
+  max-width: 0;
+  padding: 0;
+  transition: max-width 0.15s ease-out, padding 0.15s ease-out, opacity 0.15s ease-out;
 }

@@ -20,6 +20,7 @@ let offsetX = 0;
 let offsetY = 0;
 let mouseShiftedX = 0
 let mouseShiftedY = 0
+let isSimulationRunning=false
 
 const generationCountText = document.querySelector('#generation-count');
 const playCheckbox = document.querySelector('#play-box');
@@ -29,11 +30,16 @@ const showSensorsCheckBox = document.querySelector('#show-sensors-box');
 const showNeuralNetworkCheckBox = document.querySelector('#show-neuralnetwork-box');
 const clearRacetrackButton = document.querySelector('#clear-racetrack-btn');
 const restartButton = document.querySelector('#restart-btn');
+const playButton = document.querySelector('#play-btn');
+const stopButton = document.querySelector('#stop-btn');
 const saveRacetrackForm = document.querySelector('#save-racetrack-form');
 const racetrackName = document.querySelector('#save-racetrack-form');
 const racetrackList = document.querySelector('#racetracks-list');
 const showRacetracksButton = document.querySelector('#show-racetracks-btn');
 const showSettingsButton = document.querySelector('#show-settings-btn');
+const settingsIcon = document.querySelector('#settings-icon');
+const racetracksIcon = document.querySelector('#racetracks-icon');
+
 
 const racetracksContainer = document.getElementById('racetracks-container');
 const settingsContainer = document.getElementById('settings-container');
@@ -41,7 +47,7 @@ const settingsContainer = document.getElementById('settings-container');
 let deleteRacetrackButtons = null;
 let racetracksContainerVisibility = true;
 
-const racetrackPaths = ['racetracks/track1.json', 'racetracks/track2.json']
+const racetrackPaths = ['racetracks/track1.json', 'racetracks/track2.json', 'racetracks/track3.json']
 
 function setup() {
     myCanvas = createCanvas(window.innerWidth, window.innerHeight);
@@ -56,7 +62,6 @@ function setup() {
         cars.push(new Car(start.x, start.y, new NeuralNetwork(6,5,4)))
     }
 
-
     // camera = start.copy()
     console.log(window.innerWidth, window.innerHeight)
     ga = new GA()
@@ -64,14 +69,17 @@ function setup() {
     showNeuralNetworkCheckBox.click()
     clearRacetrackButton.onclick = clearRacetrack;
     restartButton.onclick = onRestartButtonClicked;
+    playButton.onclick = () => isSimulationRunning = true
+    stopButton.onclick = () => isSimulationRunning = false
     saveRacetrackForm.addEventListener('submit', event => {
         event.preventDefault()
         const racetrackName = event.target['racetrack'].value;
         saveRacetrack(racetrackName)
         event.target['racetrack'].value=""
       })
-    showRacetracksButton.onclick = () => showHideContainer('racetracks-container', 'show-racetracks-btn');
-    showSettingsButton.onclick = () => showHideContainer('settings-container', 'show-settings-btn');
+    showRacetracksButton.onclick = () => showHideContainer('racetracks-container', 'show-racetracks-btn', 'racetracks-icon');
+    showSettingsButton.onclick = () => showHideContainer('settings-container', 'show-settings-btn', 'settings-icon');
+
 
     loadRacetrackLocally()
     loadRacetracksOnRefresh();
@@ -91,7 +99,7 @@ function simulationFrame(){
     //update car
     let maxScore=0;
     for(let i=0;i<cars.length;i++) {
-        if(!cars[i].dead && playCheckbox.checked) {
+        if(!cars[i].dead && isSimulationRunning) {
             cars[i].update()
             cars[i].detectWalls(walls)
             cars[i].think()
@@ -119,7 +127,7 @@ function simulationFrame(){
 
     //Lock camera on the best car
     let cameraDistFromCar = camera.dist(cars[ga.bestIndex].pos)
-    if(lockCameraCheckbox.checked && playCheckbox.checked && cameraDistFromCar>20) {
+    if(lockCameraCheckbox.checked && isSimulationRunning && cameraDistFromCar>20) {
         let temp = p5.Vector.sub(cars[ga.bestIndex].pos, camera)
         temp.normalize()
         temp.mult(map(cameraDistFromCar, 0, height, 0, 40))
@@ -131,7 +139,7 @@ function simulationFrame(){
     translate(camera.x, camera.y);
     scale(sf);
 
-    if(playCheckbox.checked && lockCameraCheckbox.checked) {
+    if(isSimulationRunning && lockCameraCheckbox.checked) {
         translate(-camera.x,-camera.y)
         translate(window.innerWidth/2,window.innerHeight/2)
         translate(-camera.x,-camera.y)
@@ -179,7 +187,7 @@ function simulationFrame(){
         genCount++
     }
 
-    if(playCheckbox.checked)
+    if(isSimulationRunning)
         timeCount++
 
     // move camera with mouse
@@ -259,7 +267,7 @@ function clearRacetrack() {
         car.heading = 0; 
     }
 
-    playCheckbox.checked = false;
+    isSimulationRunning = false;
 }
 
 function saveRacetrack(racetrackName) {
@@ -325,20 +333,23 @@ function loadRacetracksOnRefresh(){
     }
 }
 
-function showHideContainer(containerID, buttonID){
+function showHideContainer(containerID, buttonID, iconID){
     container = document.getElementById(containerID);
     button = document.getElementById(buttonID);
+    containerIcon = document.getElementById(iconID);
     const icon = button.querySelector('i');
 
     if(container.offsetHeight == 0) {
         icon.classList.remove('fa-angle-down');
         icon.classList.add('fa-angle-up');
         container.classList.add('visible');
+        containerIcon.classList.remove('visible');
     }
     else {
         icon.classList.remove('fa-angle-up');
         icon.classList.add('fa-angle-down');
         container.classList.remove('visible');
+        containerIcon.classList.add('visible');
     }
 }
 
