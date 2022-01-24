@@ -1,5 +1,5 @@
 # Car-AI
-Car AI steered with neural network that is trained by genetic algorithm in p5.js.
+Car AI steered with a Neural Network that is trained by a Genetic Algorithm in P5.js.
 
 ## Play with it! -  https://kmoszczyc.github.io/Car-AI/
 
