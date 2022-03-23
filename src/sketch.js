@@ -37,18 +37,33 @@ const stopButton = document.querySelector("#stop-btn");
 const saveRacetrackForm = document.querySelector("#save-racetrack-form");
 const racetrackName = document.querySelector("#save-racetrack-form");
 const racetrackList = document.querySelector("#racetracks-list");
+
 const showRacetracksButton = document.querySelector("#show-racetracks-btn");
 const showSettingsButton = document.querySelector("#show-settings-btn");
+const showSimulationButton = document.querySelector("#show-simulation-settings-btn");
+
 const settingsIcon = document.querySelector("#settings-icon");
 const racetracksIcon = document.querySelector("#racetracks-icon");
+const simulationIcon = document.querySelector("#simulation-icon");
 
 const racetracksContainer = document.getElementById("racetracks-container");
 const settingsContainer = document.getElementById("settings-container");
+const simulationSettingsContainer = document.getElementById("simulation-settings-container");
 
 let deleteRacetrackButtons = null;
-let racetracksContainerVisibility = true;
+let isCameraMovementEnabled = true;
 
 const racetrackPaths = ["racetracks/track1.json", "racetracks/track2.json", "racetracks/track3.json"];
+
+const slider = document.getElementById("slider")
+const output = document.getElementById("value")
+output.innerHTML=slider.value
+console.log(output)
+
+slider.oninput = function() {
+  output.innerHTML = this.value;
+  console.log('hey over')
+}
 
 function setup() {
     myCanvas = createCanvas(window.innerWidth, window.innerHeight);
@@ -77,6 +92,7 @@ function setup() {
     });
     showRacetracksButton.onclick = () => showHideContainer("racetracks-container", "show-racetracks-btn", "racetracks-icon");
     showSettingsButton.onclick = () => showHideContainer("settings-container", "show-settings-btn", "settings-icon");
+    showSimulationButton.onclick = () => showHideContainer("simulation-settings-container", "show-simulation-settings-btn", "simulation-icon");
 
     loadRacetrackLocally();
     loadRacetracksOnRefresh();
@@ -88,6 +104,7 @@ function draw() {
 
     mouseShiftedX = (mouseX - camera.x) / sf;
     mouseShiftedY = (mouseY - camera.y) / sf;
+    
 
     simulationFrame();
 }
@@ -183,12 +200,22 @@ function simulationFrame() {
     if (isSimulationRunning) timeCount++;
 
     // move camera with mouse
-    if (mouseIsPressed) {
+    if (mouseIsPressed && isCameraMovementEnabled) {
         camera.x -= pmouseX - mouseX;
         camera.y -= pmouseY - mouseY;
     }
 
     generationCountText.innerHTML = `Generation: ${genCount}`;
+}
+
+function mouseClicked() {
+    if(mouseX>window.innerWidth-340) {
+        isCameraMovementEnabled = false;
+    } 
+}
+
+function mouseReleased() {
+    isCameraMovementEnabled = true;
 }
 
 //also used to build new walls
@@ -313,20 +340,25 @@ function loadRacetracksOnRefresh() {
 
 function showHideContainer(containerID, buttonID, iconID) {
     container = document.getElementById(containerID);
+    const outerContainer = container.parentElement
     button = document.getElementById(buttonID);
     containerIcon = document.getElementById(iconID);
+
     const icon = button.querySelector("i");
 
+    console.log(outerContainer)
     if (container.offsetHeight == 0) {
         icon.classList.remove("fa-angle-down");
         icon.classList.add("fa-angle-up");
         container.classList.add("visible");
         containerIcon.classList.remove("visible");
+        outerContainer.classList.remove("rectangular-left-borders")
     } else {
         icon.classList.remove("fa-angle-up");
         icon.classList.add("fa-angle-down");
         container.classList.remove("visible");
         containerIcon.classList.add("visible");
+        outerContainer.classList.add("rectangular-left-borders")
     }
 }
 

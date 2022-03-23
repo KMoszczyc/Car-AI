@@ -1,0 +1,161 @@
+/* made mostly by renaudtertrais: https://codepen.io/renaudtertrais/pen/waLXVx */
+
+:root {
+--color__fill:    rgba(0,0,0,1); 
+--font-size:      12px;    /* // <--- change the font size to change the size */
+
+/* // dark version */
+/* --color__default: rgba(0,0,0,.2);
+--color__hover:   rgba(0,0,0,.3);
+--color__active:  rgba(0,0,0,.5); */
+
+/* // light version */
+--color__default: rgba(255,255,255,.5);
+--color__hover:   rgba(255,255,255,.7);
+--color__active:  rgba(255,255,255,1);
+}
+
+.range-container {
+    display: flex;
+    width: 100%;
+    flex-grow: 1;
+    /* gap: 5px; */
+    text-align: center;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.range-text {
+    color: #fff;
+    font-weight: 300;
+    font-size: 16px;
+    padding: 7px;
+    margin: 0;
+    width: 30%;
+}
+
+.range-value {
+    width: 40px;
+    text-align: center;
+    border: 1px solid var(--color__default);
+    border-radius: 5px;
+}
+
+input[type=range] {
+    box-sizing: border-box;
+    font-size: 12px;
+    line-height: 1;
+    height: 2em;
+    background-color: transparent;
+    cursor: pointer;
+    -webkit-appearance: none;
+    width: 45%;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+}
+
+input[type=range]:focus {
+    outline: none;
+}
+
+input[type=range]::-ms-track {
+    width: 100%;
+    cursor: pointer;
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 2em;
+    height: 2em;
+    margin-top: 0;
+    background-color: var(--color__fill);
+    border-radius: 1em;
+    border: 2px solid rgba(255,255,255,0.5);
+    cursor: pointer;
+}
+
+input[type=range]::-moz-range-thumb {
+    width: 2em;
+    height: 2em;
+    margin-top: 0;
+    background-color: var(--color__fill);
+    border-radius: 1em;
+    border: 2px solid rgba(255,255,255,0.5);
+    cursor: pointer;
+}
+
+input[type=range]::-ms-thumb {
+    width: 2em;
+    height: 2em;
+    margin-top: 0;
+    background-color: var(--color__fill);
+    border-radius: 1em;
+    border: 2px solid rgba(255,255,255,0.5);
+    cursor: pointer;
+}
+
+input[type=range]:hover::-webkit-slider-thumb {
+    border-color: rgba(255,255,255,0.7);
+}
+
+input[type=range]:hover::-moz-range-thumb {
+    border-color: rgba(255,255,255,0.7);
+}
+input[type=range]:hover::-ms-thumb {
+    border-color: rgba(255,255,255,0.7);
+}
+input[type=range]:active::-webkit-slider-thumb {
+    border-color: #ffffff;
+}
+input[type=range]:active::-moz-range-thumb {
+    border-color: #ffffff;
+}
+input[type=range]:active::-ms-thumb {
+    border-color: #ffffff;
+}
+input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    cursor: pointer;
+    height: 1em;
+    border-bottom: 2px solid rgba(255,255,255,0.5);
+    background-color: transparent;
+}
+input[type=range]::-moz-range-track {
+    width: 100%;
+    cursor: pointer;
+    height: 1em;
+    border-bottom: 2px solid rgba(255,255,255,0.5);
+    background-color: transparent;
+}
+input[type=range]::-ms-track {
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
+}
+section {
+    display: flex;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #16a085;
+}
+section div {
+    margin: auto;
+    width: 80%;
+}
+section h1 {
+    font-family: "Helvetica Neue", Helvetical, Arial, sans-serif;
+    font-weight: 300;
+    margin-bottom: 100px;
+    text-align: center;
+    font-size: 42px;
+    color: rgba(0,0,0,0.3);
+}

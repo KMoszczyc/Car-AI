@@ -93,11 +93,11 @@ li{
   display: block;
   width: 340px;
   padding: 15px;
-  margin: 20px 20px 20px 0;
+  margin: 7px 15px 7px 0;
   border-radius: 8px;
 }
 
-#racetracks-container, #settings-container {
+#racetracks-container, #settings-container, #simulation-settings-container {
   overflow: hidden;  /* Hide the element content, while height = 0 */
   max-height: 0;
   opacity: 0;
@@ -107,7 +107,7 @@ li{
   transition: max-height 0.15s ease-out, opacity 0.15s ease-out;
 }
 
-#racetracks-container.visible, #settings-container.visible  {
+#racetracks-container.visible, #settings-container.visible, #simulation-settings-container.visible  {
   max-height: 500px;
   opacity: 1;
   margin-bottom: 20px;
@@ -115,7 +115,8 @@ li{
   /* transition-delay: 0.1s; */
 }
 
-#settings-icon.visible, #racetracks-icon.visible {
+#settings-icon.visible, #racetracks-icon.visible, #simulation-icon.visible {
+  width: 70px;
   max-width: 100px;
   padding: 1rem;
   opacity: 1; 
@@ -259,8 +260,14 @@ form > input[type=text] {
   border-bottom-left-radius: 10px;
   justify-self: center;
   align-self: center;
+  text-align: center;
   opacity: 0;
   max-width: 0;
   padding: 0;
   transition: max-width 0.15s ease-out, padding 0.15s ease-out, opacity 0.15s ease-out;
+}
+
+.rectangular-left-borders {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }

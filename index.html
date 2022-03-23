@@ -7,6 +7,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<link rel="stylesheet" href="css/style.css">
 	<link rel="stylesheet" href="css/checkbox.css">
+	<link rel="stylesheet" href="css/input_range.css">
 	
 	<title>Car AI</title>
 </head>
@@ -73,9 +74,34 @@
 				</div>
 
 				<div class="icon-n-settings-container">
-					<i class="fas fa-flag-checkered fa-2x icon" id="racetracks-icon"></i>
-					<div class="settings-container align-center">
-						<div id="racetracks-container" class="visible">
+					<i class="fas fa-dna fa-2x icon visible" id="simulation-icon"></i>
+					<div class="settings-container align-center rectangular-left-borders">
+						<div id="simulation-settings-container" class="">
+							<h2>Simulation settings</h2>
+							<div class="range-container">
+								<h4 class="range-text">Population</h4>
+								<input id="slider" type="range" min="0" max="50" value="0"/>
+								<h4 id="value" class="range-value range-text">0</h4>
+							</div>
+							<div class="range-container">
+								<h4 class="range-text">Sensors</h4>
+								<input id="slider" type="range" min="0" max="50" value="0"/>
+								<h4 id="value" class="range-value range-text">0</h4>
+							</div>
+							<div class="range-container">
+								<h4 class="range-text">Mutation Rate</h4>
+								<input id="slider" type="range" min="0" max="50" value="0"/>
+								<h4 id="value" class="range-value range-text">0</h4>
+							</div>
+						</div>
+						<button class="btn hide-btn" id="show-simulation-settings-btn"> <i class="fa fa-angle-up fa-lg"></i></button>
+					</div>
+				</div>
+
+				<div class="icon-n-settings-container">
+					<i class="fas fa-flag-checkered fa-2x icon visible" id="racetracks-icon"></i>
+					<div class="settings-container align-center rectangular-left-borders">
+						<div id="racetracks-container" class="">
 							<h2>Racetracks</h2>
 							<form id="save-racetrack-form">
 								<input type="text" name="racetrack" placeholder="racetrack name" required>
@@ -97,10 +123,10 @@
 	<script src="libraries/p5.sound.js"></script>
 	<script src="libraries/nn.js"></script>
 	<script src="libraries/matrix.js"></script>
-	<script src="sketch.js"></script>
-	<script src="Wall.js"></script>
-	<script src="Car.js"></script>
-	<script src="GA.js"></script>
-	<script src="utils.js"></script>
+	<script src="src/sketch.js"></script>
+	<script src="src/wall.js"></script>
+	<script src="src/car.js"></script>
+	<script src="src/ga.js"></script>
+	<script src="src/utils.js"></script>
 </body>
 </html>
