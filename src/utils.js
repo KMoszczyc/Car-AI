@@ -1,4 +1,10 @@
+/**
+ * Helper class for the simulation
+ */
 class Utils {
+    /**
+     * Calculates intersection position between 2 lines
+     */
     static linesIntersection(p0, p1, p2, p3) {
         let p4 = createVector(-100000, -100000);
         let s1_x, s1_y, s2_x, s2_y;
@@ -19,6 +25,9 @@ class Utils {
         return p4;
     }
 
+    /**
+     * Draw neurons and weights of neural network
+     */
     static drawNeuralNetwork(nn) {
         const neuron_size = 40;
         const max_neurons = max(nn.input_nodes, nn.hidden_nodes, nn.output_nodes);
@@ -53,6 +62,10 @@ class Utils {
         Utils.drawLabels(layer_3_x, layer_3_ys, 30, ["left", "right", "gas", "brakes"], nn.outputs, true, LEFT);
     }
 
+    /**
+     * Helper class for drawing the neural network - calculates the heights for neurons.
+     * Dependent on number of neurons in each layer
+     */
     static calculateYs(neurons_count, max_neurons, neuron_size, start_y, start_x) {
         const layer_ys = [];
         const offset_y = ((max_neurons - neurons_count) * neuron_size) / 2;
@@ -64,6 +77,9 @@ class Utils {
         return layer_ys;
     }
 
+    /**
+     * Helper class for drawing the neurons of a neural network
+     */
     static drawNodes(x, ys, neuron_size, values, highlightNeurons) {
         fill(0);
         strokeWeight(1);
@@ -88,6 +104,9 @@ class Utils {
         }
     }
 
+    /**
+     * Helper class for drawing values in neurons of a neural network
+     */
     static drawLabels(x, ys, offsetX, labels, values, highlightText, textAlignment) {
         stroke(0);
         textAlign(textAlignment);
@@ -98,6 +117,10 @@ class Utils {
         }
     }
 
+    /**
+     * Draw weights of a neural network (the larger the weight the thicker the line)
+     * Negative weights are red, positive are green
+     */
     static drawWeights(weights, layer_1_x, layer_1_ys, layer_2_x, layer_2_ys) {
         for (let i = 0; i < weights.rows; i++) {
             for (let j = 0; j < weights.cols; j++) {
@@ -109,6 +132,9 @@ class Utils {
         }
     }
 
+    /**
+     * Load a json file from front
+     */
     static async loadJSON(path) {
         return new Promise((resolve, reject) => {
             var xobj = new XMLHttpRequest();

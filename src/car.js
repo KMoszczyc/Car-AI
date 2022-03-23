@@ -3,11 +3,17 @@ let carImgSmall;
 let bestcarImg;
 let bestcarImgSmall;
 
+/**
+ * Load the car textures at the begining
+ */
 function preload() {
     carImg = loadImage("imgs/red_car_big.png");
     bestcarImg = loadImage("imgs/green_car_big.png");
 }
 
+/**
+ * Represents the agent moving around the racetrack
+ */
 class Car {
     constructor(x, y, brain) {
         this.pos = createVector(x, y);
@@ -15,7 +21,7 @@ class Car {
         this.h = 40;
         this.heading = 0;
         this.vel = 1;
-        this.score = 0;
+        this.distance = 0;
         this.maxDist = 0;
         this.fitness = 0;
         this.best = false;
@@ -29,6 +35,9 @@ class Car {
         this.brain = brain.copy();
     }
 
+    /**
+     * Using neural network to steer the car
+     */
     think() {
         let inputs = [];
         inputs[0] = this.sensorsLength[0];
@@ -41,14 +50,17 @@ class Car {
         let output = this.brain.feedforward(inputs);
         if (output[0] > 0.5) this.heading -= 0.1;
         if (output[1] > 0.5) this.heading += 0.1;
-        if (output[2] > 0.5 && output[3] < 0.5) this.vel += 0.05;  // dont accelerate if brakes are on
-        if (output[3] > 0.5 && this.vel > 1) this.vel *= 0.99;  // dont slow down to 0
+        if (output[2] > 0.5 && output[3] < 0.5) this.vel += 0.05; // dont accelerate if brakes are on
+        if (output[3] > 0.5 && this.vel > 1) this.vel *= 0.99; // dont slow down to 0
     }
 
+    /**
+     * Update car's position based on velocity, heading
+     */
     update() {
         let vel = p5.Vector.fromAngle(this.heading);
         vel.mult(this.vel);
-        this.score += vel.mag();
+        this.distance += vel.mag();
         if (start.dist(this.pos) > this.maxDist) {
             this.maxDist = vel.dist(this.pos);
         }
@@ -60,6 +72,9 @@ class Car {
         if (!this.dead) this.lifeCount++;
     }
 
+    /**
+     * Detect nearby walls with sensors intersecting walls (each sensor intersects with 2 lines from each wall)
+     */
     detectWalls(obstacles) {
         for (let i = 0; i < this.sensors.length; i++) {
             this.sensorsLength[i] = this.sensorsRange;
@@ -83,6 +98,9 @@ class Car {
         }
     }
 
+    /**
+     * Show the car, sensors
+     */
     show() {
         stroke(0);
         push();
@@ -106,6 +124,9 @@ class Car {
         }
     }
 
+    /**
+     * Prevent car from leaving the screen (teleport to the other side)
+     */
     borders() {
         if (this.pos.x > width + this.h) this.pos.x = -this.h;
         if (this.pos.x < -this.h) this.pos.x = width + this.h;

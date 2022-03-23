@@ -55,16 +55,19 @@ let isCameraMovementEnabled = true;
 
 const racetrackPaths = ["racetracks/track1.json", "racetracks/track2.json", "racetracks/track3.json"];
 
-const slider = document.getElementById("slider")
-const output = document.getElementById("value")
-output.innerHTML=slider.value
-console.log(output)
+const slider = document.getElementById("slider");
+const output = document.getElementById("value");
+output.innerHTML = slider.value;
+console.log(output);
 
-slider.oninput = function() {
-  output.innerHTML = this.value;
-  console.log('hey over')
-}
+slider.oninput = function () {
+    output.innerHTML = this.value;
+    console.log("hey over");
+};
 
+/**
+ * Built-in p5.js function that runs once, at the begining of simulation
+ */
 function setup() {
     myCanvas = createCanvas(window.innerWidth, window.innerHeight);
     myCanvas.parent("canvas-container");
@@ -92,23 +95,29 @@ function setup() {
     });
     showRacetracksButton.onclick = () => showHideContainer("racetracks-container", "show-racetracks-btn", "racetracks-icon");
     showSettingsButton.onclick = () => showHideContainer("settings-container", "show-settings-btn", "settings-icon");
-    showSimulationButton.onclick = () => showHideContainer("simulation-settings-container", "show-simulation-settings-btn", "simulation-icon");
+    showSimulationButton.onclick = () =>
+        showHideContainer("simulation-settings-container", "show-simulation-settings-btn", "simulation-icon");
 
     loadRacetrackLocally();
     loadRacetracksOnRefresh();
     deleteRacetracksOnClick();
 }
 
+/**
+ * Built-in p5.js function that iterates 60 times per s
+ */
 function draw() {
     background(0);
 
     mouseShiftedX = (mouseX - camera.x) / sf;
     mouseShiftedY = (mouseY - camera.y) / sf;
-    
 
     simulationFrame();
 }
 
+/**
+ * Update cars, walls, ga, UI
+ */
 function simulationFrame() {
     //update car
     let maxScore = 0;
@@ -208,17 +217,25 @@ function simulationFrame() {
     generationCountText.innerHTML = `Generation: ${genCount}`;
 }
 
+/**
+ * Dont move camera around while using UI 
+ */
 function mouseClicked() {
-    if(mouseX>window.innerWidth-340) {
+    if (mouseX > window.innerWidth - 340) {
         isCameraMovementEnabled = false;
-    } 
+    }
 }
 
+/**
+ * Stop moving camera when mouse is released
+ */
 function mouseReleased() {
     isCameraMovementEnabled = true;
 }
 
-//also used to build new walls
+/** 
+ * Used to build new walls with keys shortcuts
+ */
 function keyTyped() {
     if (key === "w" && document.activeElement.tagName != "INPUT") {
         if (count == 1) {
@@ -239,6 +256,9 @@ function keyTyped() {
     }
 }
 
+/**
+ * Zooming on mouse wheel
+ */
 function mouseWheel(event) {
     if (event.deltaY == 0) return;
     let mx = mouseX;
@@ -251,7 +271,9 @@ function mouseWheel(event) {
     camera.y = my - s * my + s * camera.y;
 }
 
-//not used now, steering the cars with keys
+/**
+ * Steering the car manually with keys
+ */
 function steer(car) {
     if (keyIsDown(LEFT_ARROW)) car.heading -= 0.05;
     if (keyIsDown(RIGHT_ARROW)) car.heading += 0.05;
@@ -259,6 +281,9 @@ function steer(car) {
     if (keyIsDown(DOWN_ARROW)) car.vel *= 0.95;
 }
 
+/**
+ * Restart simulation
+ */
 function onRestartButtonClicked() {
     clearRacetrack();
 
@@ -269,6 +294,9 @@ function onRestartButtonClicked() {
     genCount = 0;
 }
 
+/**
+ * Remove walls, put cars in starting position.
+ */
 function clearRacetrack() {
     walls = [];
     for (let car of cars) {
@@ -279,6 +307,9 @@ function clearRacetrack() {
     isSimulationRunning = false;
 }
 
+/**
+ * Save current racetrack
+ */
 function saveRacetrack(racetrackName) {
     let wallsStringified = [];
     for (let wall of walls) {
@@ -290,6 +321,9 @@ function saveRacetrack(racetrackName) {
     deleteRacetracksOnClick();
 }
 
+/**
+ * Load racetrack from local json file
+ */
 async function loadRacetrackLocally() {
     const racetrackKeys = Object.keys(localStorage);
 
@@ -308,6 +342,9 @@ async function loadRacetrackLocally() {
     deleteRacetracksOnClick();
 }
 
+/**
+ * Load racetrack from local storage
+ */
 function loadRacetrack(racetrackName) {
     clearRacetrack();
 
@@ -317,6 +354,9 @@ function loadRacetrack(racetrackName) {
     }
 }
 
+/**
+ * Add racetrack in UI
+ */
 function addRacetrackItem(racetrackName) {
     const li = document.createElement("li");
     const span = document.createElement("span");
@@ -330,6 +370,9 @@ function addRacetrackItem(racetrackName) {
     racetrackList.appendChild(li);
 }
 
+/**
+ * Sync local storage racetracks with UI
+ */
 function loadRacetracksOnRefresh() {
     const racetrackKeys = Object.keys(localStorage);
 
@@ -338,30 +381,36 @@ function loadRacetracksOnRefresh() {
     }
 }
 
+/**
+ * Show and hide UI containers on button click
+ */
 function showHideContainer(containerID, buttonID, iconID) {
     container = document.getElementById(containerID);
-    const outerContainer = container.parentElement
+    const outerContainer = container.parentElement;
     button = document.getElementById(buttonID);
     containerIcon = document.getElementById(iconID);
 
     const icon = button.querySelector("i");
 
-    console.log(outerContainer)
+    console.log(outerContainer);
     if (container.offsetHeight == 0) {
         icon.classList.remove("fa-angle-down");
         icon.classList.add("fa-angle-up");
         container.classList.add("visible");
         containerIcon.classList.remove("visible");
-        outerContainer.classList.remove("rectangular-left-borders")
+        outerContainer.classList.remove("rectangular-left-borders");
     } else {
         icon.classList.remove("fa-angle-up");
         icon.classList.add("fa-angle-down");
         container.classList.remove("visible");
         containerIcon.classList.add("visible");
-        outerContainer.classList.add("rectangular-left-borders")
+        outerContainer.classList.add("rectangular-left-borders");
     }
 }
 
+/**
+ * Handling racetrack deletion
+ */
 function deleteRacetracksOnClick() {
     deleteRacetrackButtons = document.querySelectorAll(".close");
     for (let i = 0; i < deleteRacetrackButtons.length; i++) {
