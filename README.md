@@ -1,5 +1,5 @@
 # Car-AI
-Car AI steered with neural network that is trained by genetic algorithm in p5.js.
+Car AI steered with a Neural Network that is trained by a Genetic Algorithm in P5.js.
 
 ## Play with it! -  https://kmoszczyc.github.io/Car-AI/
 
@@ -51,7 +51,7 @@ So this rewards cars that live long, travel longest distance but most importantl
 
 ## Update!
 ### Now the UI looks like that!
-![image](https://user-images.githubusercontent.com/61971053/142705910-c7d1fc76-33a8-42f4-840e-39ed1c4022f0.png)
+![image](https://user-images.githubusercontent.com/61971053/147993031-392abe5f-d14c-4ebb-99ec-e35d465ab404.png)
 #### New features:
 - clear current racetrack
 - save and load racetracks (local storage)
